@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "tokenName": "BTC"
+    },
+    {
+      "tokenName": "ETH"
+    },
+    {
+      "tokenName": "BNB"
+    },
+    {
+      "tokenName": "XRP"
+    }
+  ]
+}
