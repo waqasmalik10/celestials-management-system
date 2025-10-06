@@ -7,7 +7,8 @@ import upScale from "../../../images/upScale.svg";
 import downScale from "../../../images/downScale.svg";
 import sliderCardLeftArrow from "../../../images/left-card-slider-arrow.svg";
 import sliderCardRightArrow from "../../../images/right-card-slider-arrow.svg"
-import MarketStats from "./MarketStats";
+import MarketStats from "./MarketStats/MarketStats";
+import Portfolio from "./Portfolio/Portfolio";
 
 const imageMap: { [key: string]: string } = {
   card1: card1,
@@ -47,6 +48,7 @@ const DashboardBody = () => {
         behavior: "smooth",
       });
     }
+    
   };
 
   if (!cardData) {
@@ -110,6 +112,7 @@ const DashboardBody = () => {
       </button>
     </div>
     <MarketStats />
+    <Portfolio />
     </>
   );
 };

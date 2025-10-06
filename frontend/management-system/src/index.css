@@ -317,14 +317,15 @@ body {
 }
 
 .cardsBorder {
-  border: 2px solid;
-  border-image-source: radial-gradient(
-    81.2% 206.16% at 48.61% 65.05%,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0) 100%
+  border: 2px solid transparent; /* Important: use transparent base */
+  border-image: linear-gradient(
+    103.31deg,
+    rgba(255, 255, 255, 0) -9.33%,
+    rgba(255, 255, 255, 0.234) 119.91%
   );
-  border-image-slice: 1;
-  border-image-repeat: stretch;
+  border-image-slice: 1; /* Ensures the full gradient is used */
+  border-image-repeat: stretch; /* Default; can use 'round' or 'repeat' if needed */
+  border-radius: 8px; /* Optional: to round the corners */
 }
 
 .boxShadow {
