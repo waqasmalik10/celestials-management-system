@@ -115,9 +115,29 @@ const MarketStats = () => {
               Basic Statistics
             </h3>
             <div className="mt-[70px] flex justify-center">
-              <img src={ringProgressBar} alt="progress bar" />
+              <div className="progress-wrapper">
+                {allStatsData &&
+                  allStatsData.basisStatistics.map((stat: any, index: number) => (
+                    <div key={index} className="half-ring">
+                      <svg viewBox="0 0 300 150">
+                        <path
+                          className="bg"
+                          d={`M${stat.startX},150 A${stat.radius},${stat.radius} 0 0,1 ${stat.endX},150`}
+                        />
+                        <path
+                          className="fg"
+                          d={`M${stat.startX},150 A${stat.radius},${stat.radius} 0 0,1 ${stat.endX},150`}
+                          stroke={stat.color}
+                          strokeWidth="14"
+                          strokeDasharray={stat.dashArray}
+                          strokeDashoffset={stat.dashArray - (stat.dashArray * stat.progress) / 100}
+                        />
+                      </svg>
+                    </div>
+                  ))}
+              </div>
             </div>
-            <div className="-mt-[58px]">
+            <div className="mt-[58px]">
               {allStatsData &&
                 allStatsData.basisStatistics.map(
                   (basicStats: any, index: number) => (

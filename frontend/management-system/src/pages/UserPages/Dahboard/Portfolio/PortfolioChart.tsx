@@ -48,14 +48,15 @@ const PortfolioChart: React.FC<PortfolioChartProps> = ({ activeTime }) => {
       {
         label: "line",
         data: chartData,
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 2,
+        borderColor: "#259DA8",
+        borderWidth: 2.5,
         fill: false,
         tension: 0.3,
         pointRadius: 0,
       },
     ],
   };
+  
 
   const options = {
     responsive: true,
@@ -89,6 +90,7 @@ const PortfolioChart: React.FC<PortfolioChartProps> = ({ activeTime }) => {
     elements: {
       line: {
         borderJoinStyle: "round" as const,
+        capBezierPoints: true,
       },
     },
   };

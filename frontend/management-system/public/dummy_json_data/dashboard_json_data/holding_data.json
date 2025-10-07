@@ -1,0 +1,22 @@
+{
+    "tableData": [
+        {
+            "image": "firstDataImg",
+            "title": "Compound",
+            "shortTitle": "COMP",
+            "value": "3,622.49",
+            "profit_loss_value": "$1,582.31",
+            "profit_loss_percentage": "77.56%"
+
+        },
+        {
+            "image": "secondDataImg",
+            "title": "Bitcoin",
+            "shortTitle": "BTC",
+            "value": "1,253.94",
+            "profit_loss_value": "$441.19",
+            "profit_loss_percentage": "54.28%"
+
+        }
+    ] 
+}

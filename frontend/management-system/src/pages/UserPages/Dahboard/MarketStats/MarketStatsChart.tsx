@@ -33,12 +33,12 @@ const LineChart: React.FC = () => {
       .catch((error) => console.error("Error loading JSON:", error));
   }, []);
 
+  // ✅ Create gradients
   useEffect(() => {
-    if (!chartRef.current) return;
+    if (!chartRef.current || !chartData) return;
     const chart = chartRef.current;
-    if (!chart || !chart.ctx) return;
-
     const ctx = chart.ctx;
+
     const gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
     gradient1.addColorStop(0, "rgba(255, 171, 45, 0.4)");
     gradient1.addColorStop(1, "rgba(255, 171, 45, 0.0)");
@@ -47,27 +47,39 @@ const LineChart: React.FC = () => {
     gradient2.addColorStop(0, "rgba(0, 173, 163, 0.4)");
     gradient2.addColorStop(1, "rgba(0, 173, 163, 0.0)");
 
-    if (chart.data.datasets[0])
-      chart.data.datasets[0].backgroundColor = gradient1;
-    if (chart.data.datasets[1])
-      chart.data.datasets[1].backgroundColor = gradient2;
+    if (chart.data.datasets[0]) chart.data.datasets[0].backgroundColor = gradient1;
+    if (chart.data.datasets[1]) chart.data.datasets[1].backgroundColor = gradient2;
     chart.update();
   }, [chartData]);
 
+  const generateSmoothSteps = (values: number[]) => {
+    const steppedData: number[] = [];
+    for (let i = 0; i < values.length; i++) {
+      steppedData.push(values[i]);
+      if (i < values.length - 1) steppedData.push(values[i]); 
+    }
+    return steppedData;
+  };
+
+  const labels =
+    chartData?.labels.flatMap((label: string, i: number) =>
+      i < chartData.labels.length - 1 ? [label, ""] : [label]
+    ) || [];
+
   const data = chartData
     ? {
-        labels: chartData.labels,
+        labels,
         datasets: [
           {
             label: "line1",
-            data: chartData.line1,
+            data: generateSmoothSteps(chartData.line1),
             borderColor: "#FFAB2D",
             fill: true,
             borderWidth: 4,
             pointRadius: 0,
-            stepped: false,
-            tension: 0.5,
+            tension: 0.9,
             borderCapStyle: "round" as const,
+            cubicInterpolationMode: "monotone" as const,
             pointHoverRadius: 8,
             pointHoverBackgroundColor: "#FFAB2D",
             pointHoverBorderColor: "#283573",
@@ -75,14 +87,14 @@ const LineChart: React.FC = () => {
           },
           {
             label: "line2",
-            data: chartData.line2,
+            data: generateSmoothSteps(chartData.line2),
             borderColor: "#00ADA3",
             fill: true,
             borderWidth: 4,
             pointRadius: 0,
-            stepped: false,
-            tension: 0.5,
+            tension: 0.9,
             borderCapStyle: "round" as const,
+            cubicInterpolationMode: "monotone" as const,
             pointHoverRadius: 8,
             pointHoverBackgroundColor: "#00ADA3",
             pointHoverBorderColor: "#283573",
@@ -98,22 +110,25 @@ const LineChart: React.FC = () => {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: "#1f1f3d",
-        titleColor: "#fff",
-        bodyColor: "#fff",
+        backgroundColor: "rgb(0 2 46)",
+        titleColor: "white",
+        bodyColor: "white",
         displayColors: false,
-        padding: 12,
-        cornerRadius: 8,
+        padding: { left: 26, right: 26, top: 12, bottom: 12 },
+        cornerRadius: 15,
         yAlign: "bottom",
         callbacks: {
-          label: (context: any) => `$${context.parsed.y.toLocaleString()}`,
+          label: (context: any) => [`$${context.parsed.y.toLocaleString()}`],
         },
       },
     },
     scales: {
       x: {
         grid: { color: "rgba(255,255,255,0.05)" },
-        ticks: { color: "white", font: { size: 14, weight: 500 } },
+        ticks: {
+          color: "white",
+          font: { size: 14, weight: 500 },
+        },
       },
       y: {
         beginAtZero: true,

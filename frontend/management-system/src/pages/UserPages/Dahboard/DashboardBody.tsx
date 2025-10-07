@@ -9,6 +9,7 @@ import sliderCardLeftArrow from "../../../images/left-card-slider-arrow.svg";
 import sliderCardRightArrow from "../../../images/right-card-slider-arrow.svg"
 import MarketStats from "./MarketStats/MarketStats";
 import Portfolio from "./Portfolio/Portfolio";
+import Holdings from "./Holdings/Holdings";
 
 const imageMap: { [key: string]: string } = {
   card1: card1,
@@ -113,6 +114,7 @@ const DashboardBody = () => {
     </div>
     <MarketStats />
     <Portfolio />
+    <Holdings />
     </>
   );
 };
