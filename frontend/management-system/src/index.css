@@ -412,15 +412,21 @@ body {
   transform: rotate(180deg); /* So progress starts from left */
 }
 
-.bg {
+.progress-wrapper svg .bg {
   stroke: #423A6B;
   fill: none;
   stroke-width: 2.2;
 }
 
-.fg {
+.progress-wrapper svg .fg {
   fill: none;
   stroke-linecap: round;
 }
 
 
+select {
+  background: transparent;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+} 

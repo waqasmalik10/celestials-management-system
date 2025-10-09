@@ -9,8 +9,10 @@ import {
   Filler,
   Legend,
   ChartOptions,
+  Chart,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { fetchMarketStatsData, MarketStatsData } from "../api/dashboard";
 
 ChartJS.register(
   LineElement,
@@ -23,17 +25,23 @@ ChartJS.register(
 );
 
 const LineChart: React.FC = () => {
-  const chartRef = useRef<any>(null);
-  const [chartData, setChartData] = useState<any>(null);
+  const chartRef = useRef<Chart<"line"> | null>(null);
+  const [chartData, setChartData] = useState<MarketStatsData | null>(null);
+
 
   useEffect(() => {
-    fetch("/dummy_json_data/dashboard_json_data/MarketStats.json")
-      .then((response) => response.json())
-      .then((data) => setChartData(data))
-      .catch((error) => console.error("Error loading JSON:", error));
+    const loadMarketStatsData = async () => {
+      try {
+        const data = await fetchMarketStatsData();
+        setChartData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadMarketStatsData();
   }, []);
 
-  // ✅ Create gradients
   useEffect(() => {
     if (!chartRef.current || !chartData) return;
     const chart = chartRef.current;

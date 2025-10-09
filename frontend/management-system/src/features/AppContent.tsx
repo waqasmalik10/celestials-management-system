@@ -60,6 +60,7 @@ export default function AppContent() {
                 sideBarLogout={handleLogOut}
               />
               <button
+              type="button"
                 onClick={toggleSlider}
                 className={`absolute top-[23px] transition-all -right-[13px] rotate-0`}
               >
@@ -69,7 +70,7 @@ export default function AppContent() {
           </div>
           <div
             className={` ml-auto px-5 lg:px-8 2xl:px-[160px] transition-all duration-[0.6s] relative min-h-screen pb-6 ${
-              !sliderOpen ? "w-full" : "w-[calc(100%-345px)]"
+              !sliderOpen ? "w-full" : "w-full xl:w-[calc(100%-345px)]"
             }`}
           >
             <NavBar sideBarClosed={toggleSlider} />

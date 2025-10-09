@@ -93,7 +93,7 @@ const Footer = () => {
                     0.002 ETH
                 </p>
                 <button type="button" className="outline-none bg-[#FF073A] w-full max-w-[158px] h-[42px] py-[5px] px-[17px] flex gap-[5px] rounded-[13px]">
-                    <p className="font-inter text-[17px] font-medium leading-[30px] text-white pt-0.5 leading-normal">
+                    <p className="font-inter text-[17px] font-medium text-white pt-1.5">
                         BUY LMNG
                     </p>
                     <button type="submit">
