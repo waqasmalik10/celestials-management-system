@@ -1,12 +1,12 @@
-import profileImg from "../images/profileIcon.svg";
-import employeesIcon from "../images/employeesIcon.svg";
-import dashBoardIcon from "../images/dashboardIcon.svg";
-import departmentsIcon from "../images/departments.svg";
-import swapIcon from "../images/swapIcon.svg";
-import liquidityIcon from "../images/liquidity.svg";
-import companyPolicy from "../images/companyPolicyIcon.svg";
-import settingsIcon from "../images/settingsIcon.svg";
-import settingIcon from "../images/settingIcon.svg";
+import profileImg from "../assets/images/profileIcon.svg";
+import employeesIcon from "../assets/images/employeesIcon.svg";
+import dashBoardIcon from "../assets/images/dashboardIcon.svg";
+import departmentsIcon from "../assets/images/departments.svg";
+import swapIcon from "../assets/images/swapIcon.svg";
+import liquidityIcon from "../assets/images/liquidity.svg";
+import companyPolicy from "../assets/images/companyPolicyIcon.svg";
+import settingsIcon from "../assets/images/settingsIcon.svg";
+import settingIcon from "../assets/images/settingIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "../ui/Button";
@@ -26,8 +26,8 @@ export default function SideBar(props: SideBarProps) {
   const [activeSettings, setActiveSettings] = useState(false);
   const [activeDepartments, setActiveDepartments] = useState(false);
   const [activePolicy, setActivePolicy] = useState(false);
-  const [leaves, setLeaves] = useState(false);
-  const [loan, setLoan] = useState(false);
+  // const [leaves, setLeaves] = useState(false);
+  // const [loan, setLoan] = useState(false);
 
   const location = useLocation();
 
@@ -42,16 +42,16 @@ export default function SideBar(props: SideBarProps) {
       setActiveEmployees(false);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     } else if (location.pathname === "/settings") {
       setActiveDashboard(false);
       setActiveEmployees(false);
       setActiveSettings(true);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     } else if (
       location.pathname === "/employees" ||
       location.pathname.startsWith("/employee")
@@ -61,8 +61,8 @@ export default function SideBar(props: SideBarProps) {
       setActiveEmployees(true);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     } else if (
       location.pathname === "/departments" ||
       location.pathname.startsWith("/departments")
@@ -72,40 +72,40 @@ export default function SideBar(props: SideBarProps) {
       setActiveEmployees(false);
       setActiveDepartments(true);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     } else if (location.pathname === "/policy") {
       setActiveDashboard(false);
       setActiveSettings(false);
       setActiveEmployees(false);
       setActiveDepartments(false);
       setActivePolicy(true);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     } else if (location.pathname === "/leaves") {
       setActiveDashboard(false);
       setActiveSettings(false);
       setActiveEmployees(false);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(true);
-      setLoan(false);
+      // setLeaves(true);
+      // setLoan(false);
     } else if (location.pathname === "/loan") {
       setActiveDashboard(false);
       setActiveSettings(false);
       setActiveEmployees(false);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(true);
+      // setLeaves(false);
+      // setLoan(true);
     } else {
       setActiveDashboard(false);
       setActiveSettings(false);
       setActiveEmployees(false);
       setActiveDepartments(false);
       setActivePolicy(false);
-      setLeaves(false);
-      setLoan(false);
+      // setLeaves(false);
+      // setLoan(false);
     }
   }, [location.pathname]);
 
@@ -126,18 +126,18 @@ export default function SideBar(props: SideBarProps) {
     navigate("/policy");
   };
 
-  const navigateLeaves = () => {
-    navigate("/leaves");
-  };
+  // const navigateLeaves = () => {
+  //   navigate("/leaves");
+  // };
 
-  const navigateLoan = () => {
-    navigate("/loan");
-  };
+  // const navigateLoan = () => {
+  //   navigate("/loan");
+  // };
 
   return (
     <>
-      <div className="flex items-center gap-[21px] pl-[50px] w-full">
-        <div className="bg-[#C4C4C4] w-[60px] h-[60px] rounded-[14px] p-0.5">
+      <div className="flex items-center gap-[21px] pl-7 md:pl-[50px] w-full">
+        <div className="bg-[#C4C4C4] w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-[14px] p-0.5">
           <div className="relative w-full h-full rounded-[14px] bg-[#28357399] flex items-center justify-center">
             <img src={profileImg} alt="profileImg" className="w-auto h-auto" />
             <button
@@ -149,19 +149,20 @@ export default function SideBar(props: SideBarProps) {
           </div>
         </div>
         <div>
-          <h1 className="text-xl font-poppins font-normal text-white">
+          <h1 className="text-base md:text-xl font-poppins font-normal text-white">
             Hello, <span className="font-semibold">{props.name}</span>
           </h1>
-          <p className="text-sm font-normal text-[#9B94C1] dark:text-white ">
+          <p className="text-xs md:text-sm font-normal text-[#9B94C1] dark:text-white ">
             {props.sidebarEmail}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col mt-[13px]">
+      <div className=" mt-[13px] h-[calc(100%-30%)] overflowXAuto">
+        <div className="flex flex-col">
         <Button
           onClick={navigateDashboard}
-          buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
+          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
             activeDashboard ? activeClass : "bg-transparent !font-medium"
           }`}
         >
@@ -177,7 +178,7 @@ export default function SideBar(props: SideBarProps) {
           </div>
           Dashboard
         </Button>
-        <Button buttonClasses="w-full pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-base !text-left relative flex w-full items-center gap-[22px]">
+        <Button buttonClasses="w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px]">
           <div className="w-8 h-8">
             <img src={swapIcon} alt="Swap" className="w-full h-full" />
           </div>
@@ -187,7 +188,7 @@ export default function SideBar(props: SideBarProps) {
           <>
             <Button
               onClick={navigateEmployees}
-              buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
+              buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
                 activeEmpoyees ? activeClass : "bg-transparent !font-medium"
               }`}
             >
@@ -205,7 +206,7 @@ export default function SideBar(props: SideBarProps) {
             </Button>
             <Button
               onClick={navigateDepartments}
-              buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
+              buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
                 activeDepartments ? activeClass : "bg-transparent !font-medium"
               }`}
             >
@@ -223,7 +224,7 @@ export default function SideBar(props: SideBarProps) {
             </Button>
           </>
         )}
-        <Button buttonClasses="w-full pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-base !text-left relative flex w-full items-center gap-[22px]">
+        <Button buttonClasses="w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px]">
           <div className="w-8 h-8">
             <img
               src={liquidityIcon}
@@ -235,7 +236,7 @@ export default function SideBar(props: SideBarProps) {
         </Button>
         <Button
           onClick={navigatePolicy}
-          buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
+          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
             activePolicy ? activeClass : "bg-transparent !font-medium"
           }`}
         >
@@ -270,7 +271,7 @@ export default function SideBar(props: SideBarProps) {
 
         <Button
           onClick={navigateSetting}
-          buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left !font-medium relative flex w-full items-center gap-[22px] ${
+          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left !font-medium relative flex w-full items-center gap-[22px] ${
             activeSettings ? activeClass : "bg-transparent"
           }`}
         >
@@ -282,6 +283,7 @@ export default function SideBar(props: SideBarProps) {
           </div>
           Settings
         </Button>
+        </div>
       </div>
 
       <div className="absolute bottom-10 w-[calc(100%-40px)] left-5">

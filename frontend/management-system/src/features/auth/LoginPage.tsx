@@ -4,13 +4,13 @@ import Modal from "../../ui/Modal";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import google from "../../images/googleIcon.svg";
-import appleIcon from "../../images/appleIcon.svg";
-import facebookIcon from "../../images/facebook.svg";
-import twitterIcon from "../../images/twitter.svg";
+import google from "../../assets/images/googleIcon.svg";
+import appleIcon from "../../assets/images/appleIcon.svg";
+import facebookIcon from "../../assets/images/facebook.svg";
+import twitterIcon from "../../assets/images/twitter.svg";
 import * as Yup from "yup";
 import { VerifyContext } from "../../app/VerifyContext";
-import { EmployeeContext } from "../../pages/UserPages/Employee/store/employeeContext";
+import { EmployeeContext } from "../employees/store/employeeContext";
 
 const formSchema = Yup.object().shape({
   email: Yup.string()

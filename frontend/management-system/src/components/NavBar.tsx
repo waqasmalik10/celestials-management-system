@@ -1,5 +1,5 @@
-import menuIcon from "../images/menu.svg";
-import navLogo from "../images/navLogo.png";
+import menuIcon from "../assets/images/menu.svg";
+import navLogo from "../assets/images/navLogo.png";
 
 interface NavbarProps {
   sideBarClosed: () => void;
@@ -12,7 +12,7 @@ export default function NavBar({ sideBarClosed }: NavbarProps) {
         <button
           type="button"
           onClick={sideBarClosed}
-          className="w-[60px] h-[60px] outline-none bg-transparent"
+          className="w-10 h-10 md:w-[60px] md:h-[60px] outline-none bg-transparent"
         >
           <img src={menuIcon} alt="menu" className="w-full h-full" />
         </button>
@@ -20,7 +20,7 @@ export default function NavBar({ sideBarClosed }: NavbarProps) {
           <img src={navLogo} alt="logo" className="w-full h-auto" />
         </div>
       </div>
-      <div className="flex gap-[17px] items-center">
+      <div className="hidden md:flex gap-[17px] items-center">
         <div className="rounded-[13px] w-fit overflow-hidden">
         <button
           type="button"

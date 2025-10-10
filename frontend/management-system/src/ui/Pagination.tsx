@@ -34,7 +34,7 @@ export default function Pagination(props: PaginationProps) {
     }
   };
   return (
-    <div className="flex gap-[18px]">
+    <div className="flex gap-px md:gap-[18px]">
       <button
       className="-rotate-[180deg]"
         onClick={previousPage}

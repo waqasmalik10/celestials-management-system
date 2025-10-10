@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { verify, login } from "../features/api/auth";
+import { login } from "../features/api/auth";
 
 
 interface BaseUser {

@@ -1,17 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Dashboard from "../pages/UserPages/Dahboard/DashboardPage";
-import Setting from "../pages/UserPages/Settings/Settings";
-import Employees from "../pages/UserPages/Employee/Employees";
-import Departments from "../pages/UserPages/Departments/Deparrtments";
-import EmployeeDetailsPage from "../pages/UserPages/Employee/EmployeeDetails/EmployeeDetailsPage";
-import DepartmentDetailsPage from "../pages/UserPages/Departments/DepartmentDetails/DepartmentDetailsPage";
-import CompanyPolicyPage from "../pages/UserPages/CompanyPolicies/CompanyPolicyPage";
-import { EmployeeContextProvider } from "../pages/UserPages/Employee/store/employeeContext";
-import { DepartmentContextProvider } from "../pages/UserPages/Departments/store/DepartmentContext";
-import { CompanyContextProvider } from "../pages/UserPages/CompanyPolicies/store/CompanyPolicyContext";
-import NotFoundPage from "../pages/UserPages/NotFoundPage/NotFoundPage";
-import LeavesDataPage from "../pages/UserPages/LeavesData/LeavesDataPage";
-import LoanDataPage from "../pages/UserPages/LoanData/LoanDataPage";
+import Dashboard from "../features/dashboard/DashboardPage";
+import Setting from "../features/settings/Settings";
+import Employees from "../features/employees/Employees";
+import Departments from "../features/departments/Deparrtments";
+import EmployeeDetailsPage from "../features/employees/EmployeeDetails/EmployeeDetailsPage";
+import DepartmentDetailsPage from "../features/departments/DepartmentDetails/DepartmentDetailsPage";
+import CompanyPolicyPage from "../features/company-policies/CompanyPolicyPage";
+import { EmployeeContextProvider } from "../features/employees/store/employeeContext";
+import { DepartmentContextProvider } from "../features/departments/store/DepartmentContext";
+import { CompanyContextProvider } from "../features/company-policies/store/CompanyPolicyContext";
+// import NotFoundPage from "../features/not-found/NotFoundPage";
+import LeavesDataPage from "../features/leaves/LeavesDataPage";
+import LoanDataPage from "../features/loans/LoanDataPage";
 
 interface UserPageProps {
   name: string;

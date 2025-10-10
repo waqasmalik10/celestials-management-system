@@ -346,6 +346,10 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  @media (max-width: 767px) {
+    height: 20px;
+    padding-left: 27px;
+  }
 }
 
 .containerCheckMarkMarket input {
@@ -364,6 +368,10 @@ body {
   width: 27px;
   border-radius: 100%;
   border: 2px solid #929292;
+  @media (max-width: 767px) {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .containerCheckMarkMarket input:checked ~ .checkmarkMarket {
@@ -389,13 +397,23 @@ body {
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+  @media (max-width: 767px) {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+  }
 }
 
 .progress-wrapper {
   position: relative;
-  width: 300px;
+  width: 276px;
   height: 150px;
   rotate: 180deg;
+  @media (max-width: 380px) {
+    width: 260px;
+  }
 }
 
 .half-ring {
@@ -413,7 +431,7 @@ body {
 }
 
 .progress-wrapper svg .bg {
-  stroke: #423A6B;
+  stroke: #423a6b;
   fill: none;
   stroke-width: 2.2;
 }
@@ -423,10 +441,9 @@ body {
   stroke-linecap: round;
 }
 
-
 select {
   background: transparent;
-    appearance: none;
-    outline: none;
-    cursor: pointer;
-} 
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}

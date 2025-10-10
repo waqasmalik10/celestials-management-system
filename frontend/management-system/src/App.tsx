@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import AppContent from "./features/AppContent";
-import { ThemeProvider } from "./app/ThemeContext";
-import { VerifyContextProvider } from "./app/VerifyContext";
+import AppContent from "../src/features/AppContent";
+import { ThemeProvider } from "../src/app/ThemeContext";
+import { VerifyContextProvider } from "../src/app/VerifyContext";
 import "./App.css";
 
 function App() {

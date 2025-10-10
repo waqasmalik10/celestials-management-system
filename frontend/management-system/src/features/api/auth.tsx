@@ -1,5 +1,5 @@
-import ProfileImg from "../../images/profileimg.jpg";
-import axios from "./axios";
+// import ProfileImg from "assets/images/profileimg.jpg";
+// import axios from "./axios";
 // Define User interface to fix type mismatch error
 interface User {
   name: string;
@@ -7,17 +7,17 @@ interface User {
   password: string;
 }
 
-interface Employee {
-  uniqueId: string;
-  image: string;
-  name: string;
-  employeeId: string | number;
-  mySelectField?: string;
-  email?: string;
-  password?: string | number;
-  date?: string | number | Date;
-  employeeInformation?: string;
-}
+// interface Employee {
+//   uniqueId: string;
+//   image: string;
+//   name: string;
+//   employeeId: string | number;
+//   mySelectField?: string;
+//   email?: string;
+//   password?: string | number;
+//   date?: string | number | Date;
+//   employeeInformation?: string;
+// }
 
 // // auth.ts
 
