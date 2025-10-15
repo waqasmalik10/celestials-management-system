@@ -5,9 +5,14 @@ import grt from "../../../assets/images/gtr.svg";
 import comp from "../../../assets/images/Crypto.svg";
 import doge from "../../../assets/images/doge.svg";
 import uni from "../../../assets/images/uni.svg";
-import { fetchWatchlistData, WatchlistData, WatchlistTableData } from "../api/dashboard";
+import {
+  fetchWatchlistData,
+  WatchlistData,
+  WatchlistTableData,
+} from "../api/dashboard";
 import WatchlistChart from "./WatchlistChart";
 import Box from "../../../ui/Box";
+import useIntersectionObserver from "../../../ui/UseIntersectionObserver";
 
 const Watchlist = () => {
   const imageMap: { [key: string]: string } = {
@@ -19,7 +24,8 @@ const Watchlist = () => {
     sixthCoinImg: uni,
   };
 
-  const [allWatchlistTableData, setAllWatchListTableData] = useState<WatchlistData | null>(null);
+  const [allWatchlistTableData, setAllWatchListTableData] =
+    useState<WatchlistData | null>(null);
   useEffect(() => {
     fetch("/dummy_json_data/dashboard_json_data/watchlist_data.json")
       .then((res) => res.json())
@@ -39,21 +45,48 @@ const Watchlist = () => {
     loadWatchlistData();
   }, []);
 
+  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 }) as [
+    React.RefObject<HTMLDivElement>,
+    boolean
+  ];
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
+
   return (
     <>
-      <div className="flex justify-between items-center gap-4 mb-6 md:mb-[29px]">
-        <h2 className="text-2xl md:text-[30px] font-medium font-inter leading-normal md:leading-11 text-white">
+      <div
+        ref={ref}
+        className="flex justify-between items-center gap-4 mb-6 md:mb-[29px]"
+      >
+        <h2
+          className={`text-2xl md:text-[30px] font-medium font-inter leading-normal md:leading-11 text-white transition-all duration-500 ${
+            hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           My watchlist
         </h2>
         <button
           type="button"
-          className="outline-none bg-transparent text-[#259DA8] font-inter font-medium text-base md:text-xl"
+          className={`outline-none bg-transparent text-[#259DA8] font-inter font-medium text-base md:text-xl transition-all duration-500 delay-200 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
         >
           View All
         </button>
       </div>
 
-      <Box>
+      <Box boxMainDivClasses={`transition-all duration-500 delay-300 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}>
         <div className="w-full grid sm:grid-cols-2 lg:grid-cols-3">
           {allWatchlistTableData &&
             allWatchlistTableData.watchlistTableData.map(
@@ -64,7 +97,11 @@ const Watchlist = () => {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
-                      <img src={imageMap[data.coinImg]} alt="coin-img" className="w-7 h-7 md:w-10 md:h-10"/>
+                      <img
+                        src={imageMap[data.coinImg]}
+                        alt="coin-img"
+                        className="w-7 h-7 md:w-10 md:h-10"
+                      />
                       <h4 className="text-xl md:text-[25px] leading-normal md:leading-[39px] font-medium font-inter uppercase text-white">
                         {data.title}
                       </h4>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 
 interface BoxProps {
   children: ReactNode;
@@ -6,10 +6,11 @@ interface BoxProps {
   boxClass?: string;
 }
 
-const Box = ({ children, boxMainDivClasses, boxClass }: BoxProps) => {
+const Box = forwardRef<HTMLDivElement, BoxProps>(({ children, boxMainDivClasses, boxClass }, ref) => {
   return (
     <>
       <div
+        ref={ref}
         className={`w-full h-auto rounded-[15px] overflow-hidden ${boxMainDivClasses}`}
       >
         <div
@@ -20,6 +21,6 @@ const Box = ({ children, boxMainDivClasses, boxClass }: BoxProps) => {
       </div>
     </>
   );
-};
+});
 
 export default Box;

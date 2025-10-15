@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchTransactionData, TransactionData, TransactionTableData } from "../api/dashboard";
+import {
+  fetchTransactionData,
+  TransactionData,
+  TransactionTableData,
+} from "../api/dashboard";
 import btc from "../../../assets/images/bitcoin.svg";
 import eth from "../../../assets/images/eth.svg";
 import uni from "../../../assets/images/uni.svg";
@@ -8,6 +12,7 @@ import itemsSelectArrow from "../../../assets/images/itemsSelectArrow.svg";
 import Pagination from "../../../ui/Pagination";
 import Box from "../../../ui/Box";
 import Select from "../../../ui/Select";
+import useIntersectionObserver from "../../../ui/UseIntersectionObserver";
 
 const Transaction = () => {
   const imageMap: { [key: string]: string } = {
@@ -42,6 +47,18 @@ const Transaction = () => {
     loadTransactionData();
   }, []);
 
+  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 }) as [
+    React.RefObject<HTMLDivElement>,
+    boolean
+  ];
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
+
   const selectItemButton = useCallback(() => {
     setSelectItemsNumber(!selectItemsNumber);
   }, [selectItemsNumber]);
@@ -75,11 +92,19 @@ const Transaction = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sheduleRef.current && !sheduleRef.current.contains(event.target as Node) && sheduleSelect) {
-        selectShedule()
+      if (
+        sheduleRef.current &&
+        !sheduleRef.current.contains(event.target as Node) &&
+        sheduleSelect
+      ) {
+        selectShedule();
       }
-      if (itemsRef.current && !itemsRef.current.contains(event.target as Node) && selectItemsNumber) {
-        selectItemButton()
+      if (
+        itemsRef.current &&
+        !itemsRef.current.contains(event.target as Node) &&
+        selectItemsNumber
+      ) {
+        selectItemButton();
       }
     };
 
@@ -91,20 +116,30 @@ const Transaction = () => {
   }, [sheduleSelect, selectItemsNumber, selectShedule, selectItemButton]);
 
   return (
-    <div className="my-8 lg:my-[71px]">
+    <div ref={ref} className="my-8 lg:my-[71px]">
       <div className="flex justify-between items-center gap-4 mb-6 md:mb-[29px]">
-        <h2 className="text-2xl md:text-[30px] font-medium font-inter leading-normal md:leading-11 text-white">
+        <h2
+          className={`text-2xl md:text-[30px] font-medium font-inter leading-normal md:leading-11 text-white  transition-all duration-500 ${
+            hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           My transactions
         </h2>
         <button
           type="button"
-          className="outline-none bg-transparent text-[#259DA8] font-inter font-medium text-base md:text-base md:text-xl"
+          className={`outline-none bg-transparent text-[#259DA8] font-inter font-medium text-base md:text-base md:text-xl  transition-all duration-500 delay-200 ${
+            hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
         >
           View All
         </button>
       </div>
 
-      <Box>
+      <Box
+        boxMainDivClasses={` transition-all duration-500 delay-300 ${
+          hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
         <div className="w-full overflowXAuto">
           <table className="w-full min-w-[1024px]">
             <thead>
@@ -117,29 +152,24 @@ const Transaction = () => {
                 </th>
                 <th className="py-3 md:py-[19px] text-base md:text-lg font-inter font-medium leading-normal md:leading-[30px] text-[#FFFFFF7A] w-[13.49%] pl-3 pr-10 text-right relative whitespace-nowrap">
                   <div className="w-full" ref={sheduleRef}>
-                  <Select
-                  
-                    onClick={selectShedule}
-                    selectClassName="w-full flex items-center justify-end"
-                    children={sheduleItem}
-                    selectArrowClassName={`w-[27px] h-[27px] ${
-                      sheduleSelect ? "-rotate-[180deg]" : "rotate-0"
-                    } transition-all`}
-                    selectArrowPath={itemsSelectArrow}
-                  />
+                    <Select
+                      onClick={selectShedule}
+                      selectClassName="w-full flex items-center justify-end"
+                      children={sheduleItem}
+                      selectArrowClassName={`w-[27px] h-[27px] ${
+                        sheduleSelect ? "-rotate-[180deg]" : "rotate-0"
+                      } transition-all`}
+                      selectArrowPath={itemsSelectArrow}
+                    />
                   </div>
                   <div
-                   
                     className={`bodyBackground absolute -bottom-[100px] right-10 rounded-[15px] shadow-lxl overflow-hidden ${
                       sheduleSelect ? "block" : "hidden"
                     }`}
                   >
                     <ul>
                       {sheduleOptions.map((item, index) => (
-                        <li
-                          key={index}
-                          className=""
-                        >
+                        <li key={index} className="">
                           <button
                             type="button"
                             className="border-b border-solid border-[#FFFFFF21] px-7 py-2.5"
@@ -165,53 +195,57 @@ const Transaction = () => {
             </thead>
             <tbody>
               {currentTableData &&
-                currentTableData.map((data: TransactionTableData, index: number) => (
-                  <tr
-                    key={index}
-                    className="border-t border-solid border-[#FFFFFF21]"
-                  >
-                    <td className="py-3 md:py-[19px] pl-10 flex items-center w-[48.08%] gap-[29px]">
-                      <img src={imageMap[data.coinImg]} alt="coin-img" />
-                      <p className="flex items-center gap-2.5 font-inter text-base md:text-xl leading-normal md:leading-[34px] font-medium text-white">
-                        {data.title}{" "}
-                        <span className="uppercase text-[#FFFFFF7A]">
-                          {data.subTitle}
-                        </span>
-                      </p>
-                    </td>
-                    <td className={`py-3 md:py-[19px]  pr-10 text-right w-[8.66%]`}>
-                      <div
-                        className={`rounded-[15px] ml-auto px-[15px] h-6 md:h-[30px] text-xs md:text-[15px] md:leading-6 font-medium font-inter pt-px flex items-center w-fit ${
-                          data.actionStatus === "Sell"
-                            ? "text-[#FF8663] bg-[#FF866314]"
-                            : "text-[#ADDC7B] bg-[#ADDC7B14]"
-                        }`}
+                currentTableData.map(
+                  (data: TransactionTableData, index: number) => (
+                    <tr
+                      key={index}
+                      className="border-t border-solid border-[#FFFFFF21]"
+                    >
+                      <td className="py-3 md:py-[19px] pl-10 flex items-center w-[48.08%] gap-[29px]">
+                        <img src={imageMap[data.coinImg]} alt="coin-img" />
+                        <p className="flex items-center gap-2.5 font-inter text-base md:text-xl leading-normal md:leading-[34px] font-medium text-white">
+                          {data.title}{" "}
+                          <span className="uppercase text-[#FFFFFF7A]">
+                            {data.subTitle}
+                          </span>
+                        </p>
+                      </td>
+                      <td
+                        className={`py-3 md:py-[19px]  pr-10 text-right w-[8.66%]`}
                       >
-                        {data.actionStatus}
-                      </div>
-                    </td>
-                    <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[13.49%] whitespace-nowrap">
-                      {sheduleItem === "Weekly" ? (
-                        data.weekly
-                      ) : (
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: `${data.date}&nbsp;&nbsp;${data.time}`,
-                          }}
-                        />
-                      )}
-                    </td>
-                    <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[9.25%] whitespace-nowrap">
-                      {data.units}
-                    </td>
-                    <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[11.1%] whitespace-nowrap">
-                      ${data.price}
-                    </td>
-                    <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[9.56%] whitespace-nowrap">
-                      ${data.total}
-                    </td>
-                  </tr>
-                ))}
+                        <div
+                          className={`rounded-[15px] ml-auto px-[15px] h-6 md:h-[30px] text-xs md:text-[15px] md:leading-6 font-medium font-inter pt-px flex items-center w-fit ${
+                            data.actionStatus === "Sell"
+                              ? "text-[#FF8663] bg-[#FF866314]"
+                              : "text-[#ADDC7B] bg-[#ADDC7B14]"
+                          }`}
+                        >
+                          {data.actionStatus}
+                        </div>
+                      </td>
+                      <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[13.49%] whitespace-nowrap">
+                        {sheduleItem === "Weekly" ? (
+                          data.weekly
+                        ) : (
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: `${data.date}&nbsp;&nbsp;${data.time}`,
+                            }}
+                          />
+                        )}
+                      </td>
+                      <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[9.25%] whitespace-nowrap">
+                        {data.units}
+                      </td>
+                      <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[11.1%] whitespace-nowrap">
+                        ${data.price}
+                      </td>
+                      <td className="py-3 md:py-[19px] text-right pr-10 text-base md:text-lg leading-normal md:leading-[30px] font-medium font-inter text-white w-[9.56%] whitespace-nowrap">
+                        ${data.total}
+                      </td>
+                    </tr>
+                  )
+                )}
             </tbody>
           </table>
         </div>
@@ -220,15 +254,14 @@ const Transaction = () => {
             <p className="text-xs md:text-lg font-medium font-inter text-[#FFFFFF7A] flex gap-3 md:gap-[39px] items-center">
               Items per Page
               <div className="relative" ref={itemsRef}>
-
                 <Select
-                    onClick={selectItemButton}
-                    children={itemValue}
-                    selectArrowClassName={`${
-                      selectItemsNumber ? "-rotate-[180deg]" : "rotate-0"
-                    } transition-all`}
-                    selectArrowPath={itemsSelectArrow}
-                  />
+                  onClick={selectItemButton}
+                  children={itemValue}
+                  selectArrowClassName={`${
+                    selectItemsNumber ? "-rotate-[180deg]" : "rotate-0"
+                  } transition-all`}
+                  selectArrowPath={itemsSelectArrow}
+                />
                 <div
                   className={`bodyBackground absolute bottom-10 rounded-[15px] overflow-hidden shadow-xl right-0 ${
                     selectItemsNumber ? "block" : "hidden"
@@ -236,10 +269,7 @@ const Transaction = () => {
                 >
                   <ul>
                     {itemsPerPageOptions.map((item, index) => (
-                      <li
-                        key={index}
-                        className=""
-                      >
+                      <li key={index} className="">
                         <button
                           type="button"
                           className="border-b border-solid border-[#FFFFFF21] px-5 py-2.5"

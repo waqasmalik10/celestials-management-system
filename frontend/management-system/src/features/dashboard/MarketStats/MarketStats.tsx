@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import selectArrow from "../../../assets/images/selectBoxArrow.svg";
 import LineChart from "./MarketStatsChart";
-import {
-  fetchMarketStatsData,
-  MarketStatsData,
-  Token,
-} from "../api/dashboard";
+import { fetchMarketStatsData, MarketStatsData, Token } from "../api/dashboard";
 import Box from "../../../ui/Box";
 import Select from "../../../ui/Select";
+import useIntersectionObserver from "../../../ui/UseIntersectionObserver";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 const MarketStats = () => {
   const [allStatsData, setAllStatsData] = useState<MarketStatsData | null>(
@@ -41,7 +39,7 @@ const MarketStats = () => {
       }
     };
 
-      document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -63,21 +61,81 @@ const MarketStats = () => {
 
   console.log(allStatsData);
 
+  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 }) as [
+    React.RefObject<HTMLDivElement>,
+    boolean
+  ];
+  const [refStats, isVisibleStats] = useIntersectionObserver({
+    threshold: 0.1,
+  }) as [React.RefObject<HTMLDivElement>, boolean];
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+  const [hasAnimatedStats, setHasAnimatedStats] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
+
+  useEffect(() => {
+    if (isVisibleStats && !hasAnimatedStats) {
+      setHasAnimatedStats(true);
+    }
+  }, [isVisibleStats, hasAnimatedStats]);
+
+  const AnimatedNumbers = ({ value }: { value: string | number }) => {
+    const cleanedValue =
+      typeof value === "string" ? value.replace(/[^0-9.-]/g, "") : value;
+    const numValue = isNaN(Number(cleanedValue)) ? 0 : Number(cleanedValue);
+    const count = useMotionValue(0);
+    const rounded = useTransform(count, Math.round);
+    useEffect(() => {
+      if (hasAnimatedStats) {
+        const animation = animate(count, numValue, { duration: 1.5 });
+        return animation.stop;
+      }
+    }, [numValue, hasAnimatedStats]);
+    return <motion.span>{rounded}</motion.span>;
+  };
 
   return (
     <>
       <div className="mt-8 flex flex-col lg:flex-row gap-8 justify-between">
-        <Box boxMainDivClasses="!w-full lg:!w-[74.3%]" boxClass="p-5 md:!p-8">
+        <Box
+          ref={ref}
+          boxMainDivClasses={`w-full lg:!w-[74.3%] transition-all duration-500 ${
+            hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+          boxClass="p-5 md:!p-8"
+        >
           <div className="flex justify-between items-center flex-wrap gap-3 mb-20">
-            <div>
+            <div
+              className={`transition-all duration-500 delay-100 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
               <h3 className="font-poppins font-medium text-lg md:text-[21px] leading-normal text-white">
                 Market Overview
               </h3>
-              <p className="font-poppins font-normal text-[10px] md:text-[13px] leading-normal text-white mt-1 md:mt-[7px]">
+              <p
+                className={`font-poppins font-normal text-[10px] md:text-[13px] leading-normal text-white mt-1 md:mt-[7px] transition-all duration-500 delay-200 ${
+                  hasAnimated
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
                 Lorem ipsum dolor sit amet, consectetur
               </p>
             </div>
-            <div className="flex flex-wrap gap-5 md:flex-nowrap md:gap-[29px] items-center">
+            <div
+              className={`flex flex-wrap gap-5 md:flex-nowrap md:gap-[29px] items-center transition-all duration-500 delay-500 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
               {allStatsData &&
                 allStatsData.tokens.map((token: Token, index: number) => (
                   <div key={index}>
@@ -89,7 +147,13 @@ const MarketStats = () => {
                   </div>
                 ))}
             </div>
-            <div className="flex gap-4 flex-wrap">
+            <div
+              className={`flex gap-4 flex-wrap transition-all duration-500 delay-1000 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
               <div className="relative" ref={modalRef}>
                 <Select
                   onClick={openTokensDropdown}
@@ -150,10 +214,19 @@ const MarketStats = () => {
         </Box>
 
         <Box
-          boxMainDivClasses="w-full lg:!w-[23%] !min-w-full lg:!min-w-[367px]"
+          boxMainDivClasses={`w-full lg:!w-[23%] !min-w-full lg:!min-w-[367px] transition-all duration-500 ${
+            hasAnimatedStats ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
           boxClass="p-5 md:!p-8"
+          ref={refStats}
         >
-          <h3 className="font-poppins font-medium text-lg md:text-[21px] leading-normal text-white">
+          <h3
+            className={`transition-all duration-500 delay-100 font-poppins font-medium text-lg md:text-[21px] leading-normal text-white ${
+              hasAnimatedStats
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             Basic Statistics
           </h3>
           <div className="flex flex-wrap lg:block items-center justify-center md:justify-between gap-5 mt-[70px] lg:mt-0">
@@ -168,16 +241,20 @@ const MarketStats = () => {
                             className="bg"
                             d={`M${stat.startX},150 A${stat.radius},${stat.radius} 0 0,1 ${stat.endX},150`}
                           />
-                          <path
+                          <motion.path
                             className="fg"
                             d={`M${stat.startX},150 A${stat.radius},${stat.radius} 0 0,1 ${stat.endX},150`}
                             stroke={stat.color}
                             strokeWidth="14"
                             strokeDasharray={stat.dashArray}
-                            strokeDashoffset={
-                              stat.dashArray -
-                              (stat.dashArray * stat.progress) / 100
-                            }
+                            initial={{ strokeDashoffset: stat.dashArray }}
+                            animate={{
+                              strokeDashoffset: hasAnimatedStats
+                                ? stat.dashArray -
+                                  (stat.dashArray * stat.progress) / 100
+                                : stat.dashArray,
+                            }}
+                            transition={{ duration: 0.5, delay: 0.5 }}
                           />
                         </svg>
                       </div>
@@ -194,7 +271,13 @@ const MarketStats = () => {
                         key={index}
                         className="flex justify-between items-center gap-2 mb-3.5"
                       >
-                        <div className="flex gap-[11px] items-center">
+                        <div
+                        className={` flex gap-[11px] items-center  transition-all duration-500 delay-500 ${
+                            hasAnimatedStats
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-4"
+                          }`}
+                        >
                           <div
                             className="w-4 h-4 rounded-full"
                             style={{ backgroundColor: basicStats.color }}
@@ -204,7 +287,7 @@ const MarketStats = () => {
                           </h4>
                         </div>
                         <p className="font-poppins font-semibold text-xs md:text-[17px] text-white leading-normal">
-                          {basicStats.value}
+                          $<AnimatedNumbers value={basicStats.value} />
                         </p>
                       </div>
                     </>

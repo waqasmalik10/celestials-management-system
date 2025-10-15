@@ -164,7 +164,7 @@ export async function verify(token: string): Promise<ApiResponse> {
       ok: true,
       data: {
         success: true,
-        user: dummyUsers[0],
+        user: dummyUsers[1],
       },
     };
   } else {

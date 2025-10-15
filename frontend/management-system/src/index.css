@@ -305,28 +305,74 @@ body {
     rgba(255, 255, 255, 0.234) 119.91%
   );
 }
-.blurBorder {
+/* .blurBorder {
   border: 2px solid;
   border-image-source: radial-gradient(
     81.2% 206.16% at 48.61% 65.05%,
     rgba(255, 255, 255, 0.6) 0%,
     rgba(255, 255, 255, 0) 100%
   );
+
   border-image-slice: 1;
   border-image-repeat: stretch;
+  border-radius: 15px;
+} */
+
+.blurBorder {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden; /* ensures inner content stays inside radius */
+  z-index: 0;
 }
 
+.blurBorder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  padding: 2px; /* border thickness */
+  background: radial-gradient(
+    81.2% 206.16% at 48.61% 65.05%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
 .cardsBorder {
-  border: 2px solid transparent; /* Important: use transparent base */
-  border-image: linear-gradient(
+  position: relative;
+  border-radius: 15px;
+  z-index: 0;
+  overflow: hidden; /* ensures inner content stays rounded */
+}
+
+.cardsBorder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(
     103.31deg,
     rgba(255, 255, 255, 0) -9.33%,
     rgba(255, 255, 255, 0.234) 119.91%
   );
-  border-image-slice: 1; /* Ensures the full gradient is used */
-  border-image-repeat: stretch; /* Default; can use 'round' or 'repeat' if needed */
-  border-radius: 8px; /* Optional: to round the corners */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
 }
+
 
 .boxShadow {
   box-shadow: 0px 11.93px 30.38px 0px #00000040;
@@ -446,4 +492,70 @@ select {
   appearance: none;
   outline: none;
   cursor: pointer;
+}
+.cardsMain {
+  width: 100%;
+  @media (min-width: 491px) {
+    width: fit-content;
+  }
+}
+
+.cardsContainer {
+  min-width: 100%;
+  @media (min-width: 491px) and (max-width: 767px) {
+    min-width: 322px;
+  }
+  @media (min-width: 768px) {
+    min-width: 368px;
+  }
+}
+
+.sidebarButtonAnimation button {
+  animation: sidebarButton 0.6s linear both;
+}
+@keyframes sidebarButton {
+  0% {
+    transform: translateX(-450px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.siderbarButtonContainer {
+  opacity: 0;
+  transform: translateX(-450px);
+}
+.cardsAnimation {
+  animation: cardsAnimation 0.5s linear;
+}
+@keyframes cardsAnimation {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 0%;
+  }
+}
+
+.fade-bottom {
+  opacity: 1;
+  transform: translateY(0px);
+  animation: fadeUp 0.5s linear;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(46px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.cardsImgBoxShadow {
+  box-shadow: 0px 11.93px 30.38px 0px #00000040;
 }

@@ -24,7 +24,7 @@ export default function NavBar({ sideBarClosed }: NavbarProps) {
         <div className="rounded-[13px] w-fit overflow-hidden">
         <button
           type="button"
-          className="blurBackground blurBorder text-base text-white font-medium leading-7 font-inter py-[11.11px] px-[17.78px] rounded-[13px]"
+          className="blurBackground blurBorder text-base text-white font-medium leading-7 font-inter py-[11.11px] px-[17.78px] !rounded-[13px]"
         >
           Buy & Sell
         </button>

@@ -58,6 +58,9 @@ export default function LoginPage() {
     setIsChecked(!isChecked);
   };
 
+
+  console.log("loginPageRendered")
+
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: formSchema,

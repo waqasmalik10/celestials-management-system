@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { login } from "../features/api/auth";
+import { login, verify } from "../features/api/auth";
 
 
 interface BaseUser {
@@ -28,6 +28,7 @@ export const VerifyContext = createContext<{
   user: AppUser | null;
   admin: boolean;
   setAdmin: (admin: boolean) => void;
+  authCheckLoading: boolean
   setUser: (user: AppUser | null) => void;
   loginUser: (
     email: string,
@@ -40,11 +41,13 @@ export const VerifyContext = createContext<{
   setAdmin: () => {},
   setUser: () => {},
   loginUser: async () => ({ success: false }),
+  authCheckLoading: false
 });
 
 export const VerifyContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AppUser | null>(null);
-  const [admin, setAdmin] = useState(false)
+  const [admin, setAdmin] = useState(false);
+  const [authCheckLoading, setAuthCheckLoading] = useState(true);
   
 
   const loginUser = async (
@@ -64,20 +67,32 @@ export const VerifyContextProvider = ({ children }: { children: ReactNode }) => 
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
-    if (token && storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      setUser(null);
-    }
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
 
+      if (token) {
+        const { ok, data } = await verify(token);
+        if (ok && data.success) {
+          setUser(data.user);
+        } else {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUser(null);
+        }
+      } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+      }
 
+      setAuthCheckLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   useEffect(() => {
+    if(!user) return;
     if (user?.name === "Celestial") {
       setAdmin(true);
     } else {
@@ -86,7 +101,7 @@ export const VerifyContextProvider = ({ children }: { children: ReactNode }) => 
   }, [user]);
 
   return (
-    <VerifyContext.Provider value={{ user, setUser, loginUser, admin, setAdmin }}>
+    <VerifyContext.Provider value={{ user, setUser, loginUser, admin, setAdmin, authCheckLoading }}>
       {children}
     </VerifyContext.Provider>
   );

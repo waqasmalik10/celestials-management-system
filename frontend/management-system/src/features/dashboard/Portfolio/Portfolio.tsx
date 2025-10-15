@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import PortfolioChart from "./PortfolioChart";
 import { fetchPortfolioData, PortfolioData, Minute } from "../api/dashboard";
 import Box from "../../../ui/Box";
+import useIntersectionObserver from "../../../ui/UseIntersectionObserver";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 const Portfolio = () => {
-  const [portfolioData, setPortfolioData] = useState<PortfolioData | null>(null);
+  const [portfolioData, setPortfolioData] = useState<PortfolioData | null>(
+    null
+  );
   const [activeTime, setActiveTime] = useState<string>("24H");
 
   useEffect(() => {
@@ -20,22 +24,66 @@ const Portfolio = () => {
     loadPortfolioData();
   }, []);
 
+  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 }) as [
+    React.RefObject<HTMLDivElement>,
+    boolean
+  ];
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
+
+  const AnimatedNumbers = ({ value }: { value: string | number }) => {
+    const cleanedValue =
+      typeof value === "string" ? value.replace(/[^0-9.-]/g, "") : value;
+    const numValue = isNaN(Number(cleanedValue)) ? 0 : Number(cleanedValue);
+    const count = useMotionValue(0);
+    const rounded = useTransform(count, Math.round);
+    useEffect(() => {
+      if (hasAnimated) {
+        const animation = animate(count, numValue, { duration: 1.5 });
+        return animation.stop;
+      }
+    }, [numValue, hasAnimated]);
+    return <motion.span>{rounded}</motion.span>;
+  };
+
   return (
     <>
-      <Box boxMainDivClasses="!mt-8 lg:!mt-[72px]" boxClass="pb-5 md:!pb-10">
+      <Box
+        ref={ref}
+        boxMainDivClasses={`!mt-8 lg:!mt-[72px] transition-all duration-500 ${
+          hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+        boxClass="pb-5 md:!pb-10"
+      >
         <div className="p-5 md:p-10 flex justify-between items-start gap-2.5 flex-wrap">
           <div>
-            <h3 className="text-lg leading-normal  md:text-[25px] md:leading-10 font-medium font-inter text-white">
+            <h3
+              className={`text-lg leading-normal  md:text-[25px] md:leading-10 font-medium font-inter text-white transition-all duration-500 delay-200 ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
               Portfolio
             </h3>
             <p className="mt-2.5 text-white text-2xl leadin-normal md:text-[35px] font-poppins md:leading-[50px] font-semibold">
-              {portfolioData
-                ? `$${
+              $
+              {portfolioData ? (
+                <AnimatedNumbers
+                  value={`${
                     portfolioData.minutes.find(
                       (item: Minute) => item.timeValue === activeTime
                     )?.value
-                  }`
-                : "$0.00"}{" "}
+                  }`}
+                />
+              ) : (
+                "0.00"
+              )}{" "}
               &nbsp;
               <span className="font-inter text-base md:text-xl font-medium text-[#ADDC7B]">
                 {portfolioData
@@ -48,12 +96,25 @@ const Portfolio = () => {
               </span>
             </p>
           </div>
-          <div className="flex items-center gap-2.5 flex-wrap">
+          <div
+            className={`flex items-center gap-2.5 flex-wrap transition-all duration-500 delay-300 ${
+              hasAnimated
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             {portfolioData &&
               portfolioData.minutes.map((values: Minute, index: number) => {
                 const isActive = activeTime === values.timeValue;
                 return (
-                  <div key={index}>
+                  <div
+                    key={index}
+                    className={`transition-all duration-500 delay-300 ${
+                      hasAnimated
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-1"
+                    }`}
+                  >
                     <button
                       type="button"
                       onClick={() => setActiveTime(values.timeValue)}

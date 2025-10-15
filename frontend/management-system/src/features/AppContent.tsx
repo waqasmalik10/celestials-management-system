@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 
 export default function AppContent() {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { user, setUser, admin } = useContext(VerifyContext);
+  const { user, setUser, admin, authCheckLoading } = useContext(VerifyContext);
   const [sliderOpen, setSliderOpen] = useState(() => window.innerWidth >= 1280);
   const [hasInteracted, setHasInteracted] = useState(false);
 
@@ -59,14 +59,30 @@ export default function AppContent() {
     
   }, [toggleSlider, sliderOpen])
 
+
+  console.log(user, "useristhis")
+
+  
+
   return (
     <>
-      {!user ? (
+      {
+
+      authCheckLoading ? (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <p className="mt-4 text-gray-600">Checking authentication...</p>
+          </div>
+        </div>
+      ) :
+
+      !user ? (
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Navigate to="/" />} />
-        </Routes>
+          </Routes>
       ) : (
         <div className="bodyBackground h-full min-h-screen">
           <div

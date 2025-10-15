@@ -21,6 +21,7 @@ interface SideBarProps {
 }
 
 export default function SideBar(props: SideBarProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [activeDashboard, setActiveDashboard] = useState(false);
   const [activeEmpoyees, setActiveEmployees] = useState(false);
   const [activeSettings, setActiveSettings] = useState(false);
@@ -32,6 +33,12 @@ export default function SideBar(props: SideBarProps) {
   const location = useLocation();
 
   const navigate = useNavigate();
+
+  console.log(props.admin, "admin")
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const activeClass = "selectedSideBarOption !font-semibold";
 
@@ -134,6 +141,72 @@ export default function SideBar(props: SideBarProps) {
   //   navigate("/loan");
   // };
 
+  const sidebarButtons = [
+    {
+      label: "Dashboard",
+      icon: dashBoardIcon,
+      onClick: navigateDashboard,
+      active: activeDashboard,
+      show: true,
+    },
+    {
+      label: "Swap",
+      icon: swapIcon,
+      onClick: () => {},
+      active: false,
+      show: true,
+    },
+    {
+      label: "Employees",
+      icon: employeesIcon,
+      onClick: navigateEmployees,
+      active: activeEmpoyees,
+      show: props.admin,
+    },
+    {
+      label: "Departments",
+      icon: departmentsIcon,
+      onClick: navigateDepartments,
+      active: activeDepartments,
+      show: props.admin,
+    },
+    {
+      label: "Liquidity",
+      icon: liquidityIcon,
+      onClick: () => {},
+      active: false,
+      show: true,
+    },
+    {
+      label: "Company Policies",
+      icon: companyPolicy,
+      onClick: navigatePolicy,
+      active: activePolicy,
+      show: true,
+    },
+    // {
+    //   label: "Leaves",
+    //   icon: null,
+    //   onClick: navigateLeaves,
+    //   active: leaves,
+    //   show: !props.admin,
+    // },
+    // {
+    //   label: "Loan",
+    //   icon: null,
+    //   onClick: navigateLoan,
+    //   active: loan,
+    //   show: !props.admin,
+    // },
+    // {
+    //   label: "Settings",
+    //   icon: settingsIcon,
+    //   onClick: navigateSetting,
+    //   active: activeSettings,
+    //   show: true,
+    // },
+  ];
+
   return (
     <>
       <div className="flex items-center gap-[21px] pl-7 md:pl-[50px] w-full">
@@ -159,131 +232,32 @@ export default function SideBar(props: SideBarProps) {
       </div>
 
       <div className=" mt-[13px] h-[calc(100%-30%)] overflowXAuto">
-        <div className="flex flex-col">
-        <Button
-          onClick={navigateDashboard}
-          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
-            activeDashboard ? activeClass : "bg-transparent !font-medium"
-          }`}
-        >
-          {activeDashboard && (
-            <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
-          )}
-          <div className="w-8 h-8">
-            <img
-              src={dashBoardIcon}
-              alt="dashboard"
-              className="w-full h-full"
-            />
+        {isLoaded && (
+          <div className="flex flex-col sidebarButtonAnimation">
+            {sidebarButtons.filter(button => button.show).map((button, index) => (
+              <Button
+                key={button.label}
+                onClick={button.onClick}
+                buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
+                  button.active ? activeClass : "bg-transparent !font-medium"
+                }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {button.active && (
+                  <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
+                )}
+                <div className="w-8 h-8">
+                  <img
+                    src={button.icon}
+                    alt={button.label.toLowerCase()}
+                    className="w-full h-full"
+                  />
+                </div>
+                {button.label}
+              </Button>
+            ))}
           </div>
-          Dashboard
-        </Button>
-        <Button buttonClasses="w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px]">
-          <div className="w-8 h-8">
-            <img src={swapIcon} alt="Swap" className="w-full h-full" />
-          </div>
-          Swap
-        </Button>
-        {props.admin && (
-          <>
-            <Button
-              onClick={navigateEmployees}
-              buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
-                activeEmpoyees ? activeClass : "bg-transparent !font-medium"
-              }`}
-            >
-              {activeEmpoyees && (
-                <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
-              )}
-              <div className="w-8 h-8">
-                <img
-                  src={employeesIcon}
-                  alt="employees"
-                  className="w-full h-full"
-                />
-              </div>
-              Employees
-            </Button>
-            <Button
-              onClick={navigateDepartments}
-              buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
-                activeDepartments ? activeClass : "bg-transparent !font-medium"
-              }`}
-            >
-              {activeDepartments && (
-                <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
-              )}
-              <div className="w-8 h-8">
-                <img
-                  src={departmentsIcon}
-                  alt="departments"
-                  className="w-full h-full"
-                />
-              </div>
-              Departments
-            </Button>
-          </>
         )}
-        <Button buttonClasses="w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins !font-medium text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px]">
-          <div className="w-8 h-8">
-            <img
-              src={liquidityIcon}
-              alt="Liquidity"
-              className="w-full h-full"
-            />
-          </div>
-          Liquidity
-        </Button>
-        <Button
-          onClick={navigatePolicy}
-          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left relative flex w-full items-center gap-[22px] ${
-            activePolicy ? activeClass : "bg-transparent !font-medium"
-          }`}
-        >
-          {activePolicy && (
-            <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
-          )}
-          <div className="w-8 h-8">
-            <img src={companyPolicy} alt="company" className="w-full h-full" />
-          </div>
-          Company Policies
-        </Button>
-        {!props.admin && (
-          <>
-            {/* <Button
-              onClick={navigateLeaves}
-              buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
-                leaves ? activeClass : "bg-transparent !font-medium"
-              }`}
-            >
-              Leaves
-            </Button>
-            <Button
-              onClick={navigateLoan}
-              buttonClasses={`w-full pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-base !text-left relative flex w-full items-center gap-[22px] ${
-                loan ? activeClass : "bg-transparent !font-medium"
-              }`}
-            >
-              Loan
-            </Button> */}
-          </>
-        )}
-
-        <Button
-          onClick={navigateSetting}
-          buttonClasses={`w-full pl-7 md:pl-[50px] pr-2.5 h-[67px] font-poppins text-white text-sm sm:text-base !text-left !font-medium relative flex w-full items-center gap-[22px] ${
-            activeSettings ? activeClass : "bg-transparent"
-          }`}
-        >
-          {activeSettings && (
-            <div className="w-2.5 h-full rounded-tr-lg rounded-br-lg absolute left-0 bg-[#FD073A] top-0"></div>
-          )}
-          <div className="w-8 h-8">
-            <img src={settingsIcon} alt="setting" className="w-full h-full" />
-          </div>
-          Settings
-        </Button>
-        </div>
       </div>
 
       <div className="absolute bottom-10 w-[calc(100%-40px)] left-5">

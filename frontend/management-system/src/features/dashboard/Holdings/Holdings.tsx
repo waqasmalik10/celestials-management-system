@@ -12,6 +12,7 @@ import { fetchHoldingData, HoldingData, TableData } from "../api/dashboard";
 import HoldingChart from "./HoldingsChart";
 import Box from "../../../ui/Box";
 import Select from "../../../ui/Select";
+import useIntersectionObserver from "../../../ui/UseIntersectionObserver";
 
 const Holdings = () => {
   const imageMap: { [key: string]: string } = {
@@ -25,18 +26,22 @@ const Holdings = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [allTableData, setAllTableData] = useState<HoldingData | null>(null);
   const [selectItemsNumber, setSelectItemsNumber] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [itemValue, setItemValue] = useState(10);
   const itemsPerPageOptions = allTableData
     ? [10, 20, 30, allTableData.tableData.length]
     : [10, 20, 30];
 
   useEffect(() => {
+    setLoader(true);
     const loadHoldingData = async () => {
       try {
         const data = await fetchHoldingData();
         setAllTableData(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoader(false);
       }
     };
 
@@ -45,9 +50,7 @@ const Holdings = () => {
 
   const selectItemButton = useCallback(() => {
     setSelectItemsNumber(!selectItemsNumber);
-  }, [selectItemsNumber])
-
- 
+  }, [selectItemsNumber]);
 
   const selectingTheItem = (item: number) => {
     setItemValue(item);
@@ -59,14 +62,14 @@ const Holdings = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         modalRef.current &&
-        !modalRef.current.contains(event.target as Node) && selectItemsNumber
+        !modalRef.current.contains(event.target as Node) &&
+        selectItemsNumber
       ) {
         selectItemButton();
       }
     };
 
-      document.addEventListener("mousedown", handleClickOutside);
-
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -83,13 +86,33 @@ const Holdings = () => {
     ? allTableData.tableData.slice(tableFirstPage, tableLastPage)
     : [];
 
+  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 }) as [
+    React.RefObject<HTMLDivElement>,
+    boolean
+  ];
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [isVisible, hasAnimated]);
+
   return (
     <>
-      <div className="my-8 lg:my-[71px]">
-        <h3 className="text-2xl md:text-[29px] font-medium leading-normal md:leading-11 font-inter mb-6 md:mb-[29px] text-white">
+      <div ref={ref} className="my-8 lg:my-[71px]">
+        <h3 className={`text-2xl md:text-[29px] font-medium leading-normal md:leading-11 font-inter mb-6 md:mb-[29px] text-white  transition-all duration-500  ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}>
           My holdings
         </h3>
-        <Box>
+        <Box boxMainDivClasses={` transition-all duration-500 delay-500  ${
+                hasAnimated
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}>
           <div className="p-4 md:p-6">
             <div className="flex gap-[19px] justify-end">
               <button type="button">
@@ -172,6 +195,95 @@ const Holdings = () => {
                       </td>
                     </tr>
                   ))}
+                {loader && (
+                  <>
+                    <tr className="employeeLoader border-t-[13px] border-[#464980]">
+                      <td className="td-1">
+                        <span></span>
+                      </td>
+                      <td className="td-2">
+                        <span></span>
+                      </td>
+                      <td className="td-3">
+                        <span></span>
+                      </td>
+                      <td className="td-4">
+                        <span></span>
+                      </td>
+                      <td className="td-5">
+                        <span></span>
+                      </td>
+                    </tr>
+                    <tr className="employeeLoader border-t-[13px] border-[#464980]">
+                      <td className="td-1">
+                        <span></span>
+                      </td>
+                      <td className="td-2">
+                        <span></span>
+                      </td>
+                      <td className="td-3">
+                        <span></span>
+                      </td>
+                      <td className="td-4">
+                        <span></span>
+                      </td>
+                      <td className="td-5">
+                        <span></span>
+                      </td>
+                    </tr>
+                    <tr className="employeeLoader border-t-[13px] border-[#464980]">
+                      <td className="td-1">
+                        <span></span>
+                      </td>
+                      <td className="td-2">
+                        <span></span>
+                      </td>
+                      <td className="td-3">
+                        <span></span>
+                      </td>
+                      <td className="td-4">
+                        <span></span>
+                      </td>
+                      <td className="td-5">
+                        <span></span>
+                      </td>
+                    </tr>
+                    <tr className="employeeLoader border-t-[13px] border-[#464980]">
+                      <td className="td-1">
+                        <span></span>
+                      </td>
+                      <td className="td-2">
+                        <span></span>
+                      </td>
+                      <td className="td-3">
+                        <span></span>
+                      </td>
+                      <td className="td-4">
+                        <span></span>
+                      </td>
+                      <td className="td-5">
+                        <span></span>
+                      </td>
+                    </tr>
+                    <tr className="employeeLoader border-t-[13px] border-[#464980]">
+                      <td className="td-1">
+                        <span></span>
+                      </td>
+                      <td className="td-2">
+                        <span></span>
+                      </td>
+                      <td className="td-3">
+                        <span></span>
+                      </td>
+                      <td className="td-4">
+                        <span></span>
+                      </td>
+                      <td className="td-5">
+                        <span></span>
+                      </td>
+                    </tr>
+                  </>
+                )}
               </tbody>
             </table>
           </div>
@@ -180,7 +292,6 @@ const Holdings = () => {
               <p className="text-xs md:text-lg font-medium font-inter text-[#FFFFFF7A] flex gap-3 md:gap-[39px] items-center">
                 Items per Page
                 <div className="relative" ref={modalRef}>
-              
                   <Select
                     onClick={selectItemButton}
                     children={itemValue}
