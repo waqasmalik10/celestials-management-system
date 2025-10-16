@@ -15,8 +15,7 @@ body {
 
 @font-face {
   font-family: "Inter";
-  src: url("./assets/fonts/inter-font/Inter_18pt-Regular.ttf")
-    format("truetype");
+  src: url("./assets/fonts/inter-font/Inter_18pt-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -30,8 +29,7 @@ body {
 
 @font-face {
   font-family: "Urbanist";
-  src: url("./assets/fonts/urbanist-font/static/Urbanist-Regular.ttf")
-    format("truetype");
+  src: url("./assets/fonts/urbanist-font/static/Urbanist-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -41,12 +39,15 @@ body {
   /* background: linear-gradient(165deg, #414593 0%, #00022E 39.23%); */
   background: linear-gradient(180deg, #414593 -15%, #00022e 21.23%);
 }
+
 .buttonColor {
   background: linear-gradient(179deg, #414593 0% 0%, #00022e 116.23%);
 }
+
 .modalBackground {
   background: linear-gradient(176.81deg, #414593 0%, #00022e 100.23%);
 }
+
 .modalBoxShadow {
   box-shadow: 0px 1.26px 12.26px 0px #000000;
 }
@@ -107,7 +108,7 @@ body {
   border: 1px solid #2c2c35;
 }
 
-.container input:checked ~ .checkmark {
+.container input:checked~.checkmark {
   background-color: transparent;
 }
 
@@ -117,7 +118,7 @@ body {
   display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.container input:checked~.checkmark:after {
   display: block;
 }
 
@@ -137,22 +138,27 @@ body {
   animation: sliderClose 0.5s ease-in-out;
   left: -400px;
 }
+
 @keyframes sliderClose {
   0% {
     left: 0%;
   }
+
   100% {
     left: -400px;
   }
 }
+
 .sliderOpen {
   animation: sliderOpen 0.5s ease;
   left: 0%;
 }
+
 @keyframes sliderOpen {
   0% {
     left: -345px;
   }
+
   100% {
     left: 0%;
   }
@@ -168,6 +174,7 @@ body {
   0% {
     width: 27%;
   }
+
   100% {
     width: 0%;
   }
@@ -190,6 +197,7 @@ body {
   0% {
     left: 0%;
   }
+
   100% {
     left: 100%;
   }
@@ -199,6 +207,7 @@ body {
   0% {
     background-position: -250px 0;
   }
+
   100% {
     background-position: 250px 0;
   }
@@ -209,16 +218,15 @@ body {
     height: 70px;
     vertical-align: middle;
     padding-right: 5px;
+
     span {
       display: block;
       height: 100%;
       width: 100%;
-      background: linear-gradient(
-        to right,
-        #00022e 20%,
-        #1e2c6d 50%,
-        #00022e 80%
-      );
+      background: linear-gradient(to right,
+          #00022e 20%,
+          #1e2c6d 50%,
+          #00022e 80%);
       background-size: 500px 100px;
       animation-name: moving-gradient;
       animation-duration: 1s;
@@ -227,6 +235,33 @@ body {
       animation-fill-mode: forwards;
     }
   }
+}
+
+.sideBarBackgroundLoader {
+  background: linear-gradient(to right,
+      #00022e 20%,
+      #1e2c6d 50%,
+      #00022e 80%);
+  background-size: 500px 100px;
+  animation-name: moving-gradient;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.navLoader {
+  height: 70px;
+   background: linear-gradient(to right,
+      #00022e 20%,
+      #1e2c6d 50%,
+      #00022e 80%);
+  background-size: 500px 100px;
+  animation-name: moving-gradient;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
 .loader {
@@ -246,6 +281,7 @@ body {
   background: #00022e;
   border-radius: 30px;
 }
+
 .departmentLoaderChildren {
   background: linear-gradient(to right, #1e2c6d 20%, #00022e 50%, #1e2c6d 80%);
   background-size: 500px 100px;
@@ -256,6 +292,7 @@ body {
   animation-fill-mode: forwards;
   border-radius: 30px;
 }
+
 .departmentLoaderChildren2 {
   height: 30px;
   width: 100%;
@@ -287,24 +324,22 @@ body {
 }
 
 .selectedSideBarOption {
-  background: linear-gradient(
-    90deg,
-    #ff073a -156.38%,
-    rgba(255, 7, 58, 0) 108.84%
-  );
+  background: linear-gradient(90deg,
+      #ff073a -156.38%,
+      rgba(255, 7, 58, 0) 108.84%);
 }
+
 .bodyBackground {
   /* background: linear-gradient(#414593, #00022E); */
   background: linear-gradient(176.81deg, #414593 0%, #00022e 100.23%);
 }
 
 .blurBackground {
-  background: linear-gradient(
-    103.31deg,
-    rgba(255, 255, 255, 0) -9.33%,
-    rgba(255, 255, 255, 0.234) 119.91%
-  );
+  background: linear-gradient(103.31deg,
+      rgba(255, 255, 255, 0) -9.33%,
+      rgba(255, 255, 255, 0.234) 119.91%);
 }
+
 /* .blurBorder {
   border: 2px solid;
   border-image-source: radial-gradient(
@@ -321,7 +356,8 @@ body {
 .blurBorder {
   position: relative;
   border-radius: 15px;
-  overflow: hidden; /* ensures inner content stays inside radius */
+  overflow: hidden;
+  /* ensures inner content stays inside radius */
   z-index: 0;
 }
 
@@ -330,14 +366,13 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 15px;
-  padding: 2px; /* border thickness */
-  background: radial-gradient(
-    81.2% 206.16% at 48.61% 65.05%,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
+  padding: 2px;
+  /* border thickness */
+  background: radial-gradient(81.2% 206.16% at 48.61% 65.05%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -350,7 +385,8 @@ body {
   position: relative;
   border-radius: 15px;
   z-index: 0;
-  overflow: hidden; /* ensures inner content stays rounded */
+  overflow: hidden;
+  /* ensures inner content stays rounded */
 }
 
 .cardsBorder::before {
@@ -359,11 +395,9 @@ body {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(
-    103.31deg,
-    rgba(255, 255, 255, 0) -9.33%,
-    rgba(255, 255, 255, 0.234) 119.91%
-  );
+  background: linear-gradient(103.31deg,
+      rgba(255, 255, 255, 0) -9.33%,
+      rgba(255, 255, 255, 0.234) 119.91%);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -392,6 +426,7 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
   @media (max-width: 767px) {
     height: 20px;
     padding-left: 27px;
@@ -414,13 +449,14 @@ body {
   width: 27px;
   border-radius: 100%;
   border: 2px solid #929292;
+
   @media (max-width: 767px) {
     width: 20px;
     height: 20px;
   }
 }
 
-.containerCheckMarkMarket input:checked ~ .checkmarkMarket {
+.containerCheckMarkMarket input:checked~.checkmarkMarket {
   background-color: transparent;
   border: 2px solid white;
 }
@@ -431,7 +467,7 @@ body {
   display: none;
 }
 
-.containerCheckMarkMarket input:checked ~ .checkmarkMarket:after {
+.containerCheckMarkMarket input:checked~.checkmarkMarket:after {
   display: block;
 }
 
@@ -443,6 +479,7 @@ body {
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+
   @media (max-width: 767px) {
     left: 5px;
     top: 2px;
@@ -457,6 +494,7 @@ body {
   width: 276px;
   height: 150px;
   rotate: 180deg;
+
   @media (max-width: 380px) {
     width: 260px;
   }
@@ -473,7 +511,8 @@ body {
 .progress-wrapper svg {
   width: 100%;
   height: 100%;
-  transform: rotate(180deg); /* So progress starts from left */
+  transform: rotate(180deg);
+  /* So progress starts from left */
 }
 
 .progress-wrapper svg .bg {
@@ -493,8 +532,10 @@ select {
   outline: none;
   cursor: pointer;
 }
+
 .cardsMain {
   width: 100%;
+
   @media (min-width: 491px) {
     width: fit-content;
   }
@@ -502,9 +543,11 @@ select {
 
 .cardsContainer {
   min-width: 100%;
+
   @media (min-width: 491px) and (max-width: 767px) {
     min-width: 322px;
   }
+
   @media (min-width: 768px) {
     min-width: 368px;
   }
@@ -513,11 +556,13 @@ select {
 .sidebarButtonAnimation button {
   animation: sidebarButton 0.6s linear both;
 }
+
 @keyframes sidebarButton {
   0% {
     transform: translateX(-450px);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -528,13 +573,16 @@ select {
   opacity: 0;
   transform: translateX(-450px);
 }
+
 .cardsAnimation {
   animation: cardsAnimation 0.5s linear;
 }
+
 @keyframes cardsAnimation {
   0% {
     left: -100%;
   }
+
   100% {
     left: 0%;
   }
@@ -551,11 +599,13 @@ select {
     opacity: 0;
     transform: translateY(46px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0px);
   }
 }
+
 .cardsImgBoxShadow {
   box-shadow: 0px 11.93px 30.38px 0px #00000040;
 }

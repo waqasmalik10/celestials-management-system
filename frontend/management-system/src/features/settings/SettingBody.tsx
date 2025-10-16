@@ -1,17 +1,16 @@
 import { useContext, useRef, useState } from "react";
 import profileIcon from "../../assets/images/profileIcon.svg";
 import { ThemeContext } from "../../app/ThemeContext";
+import Button from "../../shared/Button";
 
 interface SettingBodyProps {
   admin?: boolean;
   name?: string;
-  pageTitle?: string;
   email?: string;
 }
 
 export default function SettingBody({
   name,
-  pageTitle,
   email,
 }: SettingBodyProps) {
   const context = useContext(ThemeContext);
@@ -33,10 +32,7 @@ export default function SettingBody({
   };
 
   return (
-    <div className="mt-[50px]">
-      <h1 className="font-popins text-left text-4xl font-semibold text-white mb-[53px]">
-        {pageTitle}
-      </h1>
+    <>
       <div className="flex flex-col gap-3 text-white">
         <p className="w-full p-7 bg-[#1E2C6D] dark:bg-[#383838]  text-3xl">Profile Image:</p>
         <div className="flex gap-10 flex-wrap items-center">
@@ -62,15 +58,15 @@ export default function SettingBody({
             onChange={handleFileChange}
           />
           <div className="flex flex-wrap gap-2">
-            <button
-              className="buttonColor px-5 py-4 pb-5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center"
+            <Button
+              buttonClasses="buttonColor px-5 py-4 pb-5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center"
               onClick={handleClick}
             >
               Change Image
-            </button>
-            <button className="buttonColor px-5 py-4 pb-5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center">
+            </Button>
+            <Button buttonClasses="buttonColor px-5 py-4 pb-5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center">
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -85,13 +81,13 @@ export default function SettingBody({
         </div>
       </div>
       <div className="mt-10">
-        <button
-          className="bg-[#1E2C6D] dark:bg-[#383838]  dark:bg-black  px-5 py-4 pt-4.5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center"
+        <Button
+          buttonClasses="bg-[#1E2C6D] dark:bg-[#383838]  dark:bg-black  px-5 py-4 pt-4.5 rounded-[10px] text-white text-xl font-inter font-medium leading-[17px] text-center"
           onClick={toggleTheme}
         >
           {theme === "light" ? "Switch to Dark" : "Switch to Light"}
-        </button>
+        </Button>
       </div>
-    </div>
+    </>
   );
 }

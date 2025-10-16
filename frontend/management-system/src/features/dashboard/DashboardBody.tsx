@@ -1,17 +1,20 @@
 
-import MarketStats from "./MarketStats/MarketStats";
-import Portfolio from "./Portfolio/Portfolio";
-import Holdings from "./Holdings/Holdings";
-import Watchlist from "./Watchlist/Watchlist";
+import MarketStats from "./ui/MarketStats/MarketStats";
+import Portfolio from "./ui/Portfolio/Portfolio";
+import Holdings from "./ui/Holdings/Holdings";
+import Watchlist from "./ui/Watchlist/Watchlist";
 
-import Transaction from "./Transaction/Transaction";
-import Cards from "./Cards/Cards";
+import Transaction from "./ui/Transaction/Transaction";
+import Cards from "./ui/Cards/Cards";
+import { VerifyContext } from "../../app/VerifyContext";
+import { useContext } from "react";
 
 
 const DashboardBody = () => {
+  const { authCheckLoading } = useContext(VerifyContext);
   return (
     <>
-    <Cards />
+    <Cards loader={authCheckLoading} />
     <MarketStats />
     <Portfolio />
     <Holdings />
